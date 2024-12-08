@@ -13,8 +13,8 @@ In this exercise, we are tasked with solving a shortest path problem in a graph 
 - **Transitions**: Probabilistic outcomes of taking an action, with associated costs.
 
 The objective is to compute:
-1. The **value function** \(V^*(s)\), which represents the minimum expected cost to reach the terminal state \(P\) from any state \(s\).
-2. The **optimal policy** \( \pi^*(s) \), which specifies the best action to take in each state to achieve the minimum cost.
+1. The **value function** $V^*(s)$, which represents the minimum expected cost to reach the terminal state $P$ from any state $s$.
+2. The **optimal policy** $ \pi^*(s) $, which specifies the best action to take in each state to achieve the minimum cost.
 
 ---
 
@@ -22,21 +22,21 @@ The objective is to compute:
 
 ### Optimal Value Functions
 
-1. **State Value Function \(V^*(s)\)**:
-   \[
-   V^*(s) = \min_a \sum_{s'} p(s' \mid s, a) \left[ c(s, a, s') + V^*(s') ight]
-   \]
-   - \(p(s' \mid s, a)\): Probability of transitioning to state \(s'\) from \(s\) using action \(a\).
-   - \(c(s, a, s')\): Cost of the transition.
+1. **State Value Function $V^*(s)$**:
+   $$
+   V^*(s) = \min_a \sum_{s'} p(s' \mid s, a) \left[ c(s, a, s') + V^*(s') \right]
+   $$
+   - $p(s' \mid s, a)$: Probability of transitioning to state $s'$ from $s$ using action $a$.
+   - $c(s, a, s')$: Cost of the transition.
 
-2. **State-Action Value Function \(Q^*(s, a)\)**:
-   \[
-   Q^*(s, a) = \sum_{s'} p(s' \mid s, a) \left[ c(s, a, s') + V^*(s') ight]
-   \]
-   - \(V^*(s) = \min_a Q^*(s, a)\).
+2. **State-Action Value Function $Q^*(s, a)$**:
+   $$
+   Q^*(s, a) = \sum_{s'} p(s' \mid s, a) \left[ c(s, a, s') + V^*(s') \right]
+   $$
+   - $V^*(s) = \\min_a Q^*(s, a)$.
 
 ### Convergence
-The Bellman updates iteratively refine the value function \(V(s)\). The iterative updates rely on the contraction property of the Bellman operator, ensuring convergence to \(V^*(s)\) for all states.
+The Bellman updates iteratively refine the value function $V(s)$. The iterative updates rely on the contraction property of the Bellman operator, ensuring convergence to $V^*(s)$ for all states.
 
 ---
 
@@ -83,22 +83,22 @@ Stochastic_Shortest_Path/
     ```
 
 3. **View the Output**:
-    - **Value Matrix \(V(s)\)**: Minimum expected costs for each state.
-    - **Policy Matrix \( \pi(s) \)**: Optimal action for each state.
+    - **Value Matrix $V(s)$**: Minimum expected costs for each state.
+    - **Policy Matrix $ \pi(s) $**: Optimal action for each state.
 
 ---
 
 ## Example Results
 
 For the provided input graph:
-- **Value Matrix \(V(s)\)**:
+- **Value Matrix $V(s)$**:
     ```
     A: 10.0
     B: 8.0
     D: 5.0
     ```
 
-- **Policy Matrix \( \pi(s) \)**:
+- **Policy Matrix $ \pi(s) $**:
     ```
     A: B
     B: D
