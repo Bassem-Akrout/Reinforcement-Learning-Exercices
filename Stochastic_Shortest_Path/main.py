@@ -1,5 +1,5 @@
 import json
-from graph.graph import Graph
+from Shared.graph.graph import Graph
 from solver.bellman_solver import BellmanSolver
 
 # Load JSON data
