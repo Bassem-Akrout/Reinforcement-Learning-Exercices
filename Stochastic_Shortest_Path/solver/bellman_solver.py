@@ -69,8 +69,11 @@ class BellmanSolver:
             print(f"Reached maximum iterations ({max_iterations}) without full convergence.")
     def _update_values(self):
         """
-        Perform a single update of the value and policy matrices using Bellman equations.
+        Perform a single synchronous update of the value and policy matrices using Bellman equations.
         """
+        # Temporary value matrix to store updated values
+        new_value_matrix = self.value_matrix.copy()
+
         for node_name, node in self.graph.nodes.items():
             if node_name in self.terminal_states:
                 continue
@@ -81,16 +84,22 @@ class BellmanSolver:
             for action in node.actions:
                 expected_cost = 0
                 for transition in action.transitions:
+                    # Use the previous iteration's value matrix for calculations
                     expected_cost += transition.probability * (
                         transition.cost + self.value_matrix[transition.state]
                     )
-
+                # Find the minimum cost
                 if expected_cost < min_cost:
                     min_cost = expected_cost
                     best_action = action.name
 
-            self.value_matrix[node_name] = min_cost
+            # Update the new value matrix and policy
+            new_value_matrix[node_name] = min_cost
             self.policy_matrix[node_name] = best_action
+
+        # Synchronize: Update the main value matrix after completing all states
+        self.value_matrix = new_value_matrix
+
 
     def get_results(self):
         """

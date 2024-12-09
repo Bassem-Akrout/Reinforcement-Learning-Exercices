@@ -90,8 +90,11 @@ class BellmanSolver:
 
     def _update_values(self):
         """
-        Perform a single update of the value and policy matrices using Bellman equations.
+        Perform a single synchronous update of the value and policy matrices using Bellman equations.
         """
+        # Temporary value matrix to store updated values
+        new_value_matrix = self.value_matrix.copy()
+
         for node_name, node in self.graph.nodes.items():
             if node_name in self.terminal_states:
                 continue
@@ -102,19 +105,22 @@ class BellmanSolver:
             for action in node.actions:
                 expected_value = 0
                 for transition in action.transitions:
-                    # Apply the Bellman equation with gamma for discounting
+                    # Use the previous iteration's value matrix for calculations
                     expected_value += transition.probability * (
                         transition.cost + self.gamma * self.value_matrix[transition.state]
                     )
 
-                # Find the maximum value instead of the minimum
+                # Find the maximum value
                 if expected_value > max_value:
                     max_value = expected_value
                     best_action = action.name
 
-            # Update the value and policy for the current state
-            self.value_matrix[node_name] = max_value
+            # Update the new value matrix and policy
+            new_value_matrix[node_name] = max_value
             self.policy_matrix[node_name] = best_action
+
+        # Synchronize: Update the main value matrix after completing all states
+        self.value_matrix = new_value_matrix
 
     def get_results(self):
         """

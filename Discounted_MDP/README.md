@@ -1,6 +1,8 @@
 
 # Example of a Discounted MDP
 
+> **Update**: An issue in the Bellman solver implementation caused errors when $\gamma = 1$ or $p = 1$, leading to unintended behaviors. This issue has been resolved, ensuring the algorithm works correctly across all configurations.
+
 This repository contains an implementation of a discounted Markov Decision Process (MDP). The goal is to explore the impact of parameters like the discount factor ($\gamma$) and transition probabilities ($p$) on the resulting policies and value functions.
 
 ---
