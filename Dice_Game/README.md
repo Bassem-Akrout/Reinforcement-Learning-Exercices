@@ -31,17 +31,14 @@ The dice game involves:
 Dice_Game/
 ├── input.py                   # Generates input data for the dice game (states, actions, transitions).
 ├── main.py                    # Main script to solve the MDP using Bellman equations.
-├── dice_game_input.json       # Generated MDP input file for the dice game.
-├── solver/
-│   ├── bellman_solver.py      # Implements the Bellman equations for value iteration.
-│   └── __init__.py
+└─── dice_game_input.json       # Generated MDP input file for the dice game.
 ```
 
 ### Key Components
 
 1. **State Space**:
    - States represent combinations of dice faces observed so far, delimited by `-` (e.g., `1-2-3`).
-   - Special terminal states: `L`, `S`, and `1-2-3-...-d`.
+   - Terminal terminal states: `L`, `S`, and `1-2-3-...-d` **(The win state)**.
 
 2. **Actions**:
    - **Stop (`S`)**: Ends the game and returns the sum of observed faces.
@@ -49,11 +46,11 @@ Dice_Game/
 
 3. **Transitions**:
    - Rolling a new face transitions to a new state with probability \(1/d\).
-   - Rolling a duplicate face transitions to `L` with a negative reward.
+   - Rolling a duplicate face transitions to `L` .
 
 4. **Reward Function**:
    - Stop: Sum of unique observed faces.
-   - Roll: Value of the new face if unique, or \(0\) if duplicate.
+   - Roll: If a unique face is rolled, the reward is the value of the new face. If a duplicate face is rolled, a negative reward equal to the total reward accumulated for that sequence is applied (you lose what you previously won).
 
 ---
 
@@ -65,18 +62,20 @@ The value function (`V`) and policy (`π`) are computed using **value iteration*
 
 | State     | Value (`V`) | Policy (`π`) |
 |-----------|-------------|--------------|
-| `1`       | `2.33`      | Roll         |
+| `1`       | `3.66`      | Roll         |
+| `2`       | `3.33`      | Roll         |
+| `3`       | `3.00`      | Stop         |
 | `1-2`     | `3.00`      | Stop         |
+| `1-3`     | `4.00`      | Stop         |
+| `2-3`     | `5.00`      | Stop         |
 | `L`       | `0.00`      | -            |
 
 ---
 
 ## How to Run
 
-1. **Generate Input**:
-   Customize the number of dice faces (`d`) in `input.py`.
-
-2. **Run the Solver**:
+1. **Run the Solver**:
+   Customize the number of dice faces (`d`) in `main.py`.
    Execute `main.py` to calculate the optimal policy and value function.
 
    ```bash
